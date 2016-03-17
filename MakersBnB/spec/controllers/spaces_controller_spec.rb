@@ -47,8 +47,8 @@ RSpec.describe SpacesController, type: :controller do
   describe "GET #show" do
     it "returns a single space" do
       space = create(:space)
-      get :index, id: space, format: :json
-      expect(json.last['name']).to eq 'my space'
+      get :show, id: space.id, format: :json
+      expect(json['name']).to eq 'my space'
     end
   end
 
@@ -64,6 +64,14 @@ RSpec.describe SpacesController, type: :controller do
       create(:space)
       delete :destroy, format: :json, id: 4
       expect(Space.where(id: 4)).to be_empty
+    end
+  end
+
+  describe "PUT/PATCH #update" do
+    it 'updates a space' do
+      new_space = create(:space)
+      patch :update, id: new_space.id, space: {size: 2}, format: :json
+      expect(json['size']).to eq 2
     end
   end
 
